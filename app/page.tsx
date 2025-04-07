@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,9 +11,14 @@ export default function Home() {
             HealthGuard AI
             <span className="text-blue-600 dark:text-blue-400">Assistant</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             Your personal AI health companion, making healthcare simple and accessible for seniors
           </p>
+          <Link href="/login">
+            <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+              Get Started
+            </button>
+          </Link>
         </div>
 
         {/* Features Grid */}
