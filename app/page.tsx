@@ -57,18 +57,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="text-center">
-          <a
-            href="#get-started"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
-          >
-            Get Started Today
-          </a>
-          <p className="mt-4 text-gray-600 dark:text-gray-400 text-lg">
-            Try free for 30 days. No credit card required.
-          </p>
-        </div>
+
       </main>
 
       {/* Footer */}
