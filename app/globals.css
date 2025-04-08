@@ -24,3 +24,37 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Override default browser validation popup colors */
+input::-webkit-validation-bubble-message {
+  color: white;
+  background: #3b82f6; /* blue-500 */
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input::-webkit-validation-bubble-arrow {
+  background: #3b82f6; /* blue-500 */
+  border: none;
+  box-shadow: none;
+}
+
+/* Firefox custom validation popup */
+@supports not (-webkit-validation-bubble-message: none) {
+  input:invalid {
+    box-shadow: none;
+  }
+
+  input:invalid:not(:placeholder-shown) {
+    border-color: #3b82f6; /* blue-500 */
+  }
+}
+
+/* Custom validation message */
+input:invalid:not(:placeholder-shown) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233b82f6' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 20px 20px;
+  padding-right: 40px;
+}
