@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HealthGuard AI Assistant",
-  description: "Your personal AI health companion, making healthcare simple and accessible for seniors",
+  title: "WellnessWatch",
+  description: "Your intelligent AI companion, making health monitoring simple and accessible",
 };
 
 export default function RootLayout({

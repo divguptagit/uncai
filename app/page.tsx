@@ -8,11 +8,11 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            UncAI
-            <span className="text-blue-600 dark:text-blue-400">Assistant</span>
+            Wellness
+            <span className="text-blue-600 dark:text-blue-400">Watch</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-            Your intelligent AI assistant, making tasks simple and accessible
+            Your intelligent AI companion, making health monitoring simple and accessible
           </p>
           <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
             Get Started
