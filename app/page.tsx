@@ -8,11 +8,11 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            HealthGuard AI
+            UncAI
             <span className="text-blue-600 dark:text-blue-400">Assistant</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-            Your personal AI health companion, making healthcare simple and accessible for seniors
+            Your intelligent AI assistant, making tasks simple and accessible
           </p>
           <Link href="/login">
             <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -64,7 +64,7 @@ export default function Home() {
       <footer className="border-t border-gray-200 dark:border-gray-700 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-center text-gray-600 dark:text-gray-400 text-lg">
-            © 2025 HealthGuard AI. Making healthcare smarter, together.
+            © 2025 UncAI. Making technology smarter, together.
           </p>
         </div>
       </footer>
