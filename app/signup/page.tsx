@@ -1,39 +1,37 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { signIn } from '@/app/auth';
 
-export default function Login() {
-  const router = useRouter();
+export default function Signup() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const searchParams = useSearchParams();
-  const message = searchParams.get('message');
-
-  useEffect(() => {
-    if (message) {
-      setError('');
-    }
-  }, [message]);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
+    setNameError('');
     setEmailError('');
     setPasswordError('');
     
     let hasError = false;
     
+    if (!name) {
+      setNameError('Please fill out the name field');
+      hasError = true;
+    }
+
     if (!email) {
       setEmailError('Please fill out the email field');
       hasError = true;
@@ -45,35 +43,52 @@ export default function Login() {
     if (!password) {
       setPasswordError('Please fill out the password field');
       hasError = true;
+    } else if (password.length < 8) {
+      setPasswordError('Password must be at least 8 characters');
+      hasError = true;
     }
-    
+
     if (hasError) {
       setIsLoading(false);
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Please enter a valid email address');
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const res = await signIn('credentials', {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      // Sign in the user after successful signup
+      const signInRes = await signIn('credentials', {
         email,
         password,
         redirect: false,
       });
 
-      if (!res?.error) {
+      if (!signInRes?.error) {
         // Login successful, redirect to home page
         router.push('/');
         router.refresh();
       } else {
-        setError('Invalid email or password');
+        // If auto-login fails, redirect to login page
+        router.push('/login?message=Account created successfully');
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -90,12 +105,43 @@ export default function Login() {
               <span className="text-blue-600 dark:text-blue-400">Assistant</span>
             </h1>
             <p className="mt-2 text-gray-600 dark:text-gray-300">
-              Sign in to your account
+              Create your account
             </p>
           </div>
 
-          {/* Login Form */}
+          {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name field */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Full Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (e.target.value) {
+                    setNameError('');
+                  }
+                }}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                         placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 
+                         dark:bg-gray-700 dark:text-white"
+                placeholder="Enter your name"
+              />
+              {nameError && (
+                <div className="mt-1 flex items-center space-x-1 text-sm text-blue-600 dark:text-blue-400">
+                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  <span>{nameError}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Email field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email address
@@ -125,6 +171,7 @@ export default function Login() {
               )}
             </div>
 
+            {/* Password field */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
@@ -154,59 +201,29 @@ export default function Login() {
               )}
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-
-            {message && (
-              <div className="p-3 bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-800 rounded-md">
-                <p className="text-sm text-green-600 dark:text-green-400">{message}</p>
-              </div>
-            )}
-
             {error && (
-              <div className="p-4 mb-4 text-sm border rounded-lg flex items-center space-x-2 bg-white border-blue-200 text-blue-600 dark:bg-gray-800 dark:border-blue-500/30 dark:text-blue-400">
-                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <span>{error}</span>
+              <div className="p-3 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-md">
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium 
                        text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
-                       focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${isLoading ? 'cursor-wait' : ''}`}
+                       focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-gray-800"
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? 'Creating account...' : 'Sign up'}
             </button>
-          </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Don't have an account?{' '}
-              <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
-                Sign up
+            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+              Already have an account?{' '}
+              <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                Sign in
               </Link>
             </p>
-          </div>
+          </form>
         </div>
       </main>
     </div>
