@@ -9,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -16,8 +17,14 @@ export default function Login() {
     setError('');
     setIsLoading(true);
 
-    if (!email || !password) {
-      setError('Please enter both email and password');
+    if (!email) {
+      setEmailError('Please enter your email address');
+      setIsLoading(false);
+      return;
+    }
+    
+    if (!password) {
+      setPasswordError('Please enter your password');
       setIsLoading(false);
       return;
     }
@@ -100,12 +107,27 @@ export default function Login() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (e.target.value.length === 0) {
+                    setPasswordError('Please enter your password');
+                  } else {
+                    setPasswordError('');
+                  }
+                }}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
                          placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 
                          dark:bg-gray-700 dark:text-white"
                 placeholder="Enter your password"
               />
+              {passwordError && (
+                <div className="mt-1 flex items-center space-x-1 text-sm text-blue-600 dark:text-blue-400">
+                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  <span>{passwordError}</span>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between">
