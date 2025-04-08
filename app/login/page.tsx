@@ -20,18 +20,22 @@ export default function Login() {
     setEmailError('');
     setPasswordError('');
     
+    let hasError = false;
+    
     if (!email) {
       setEmailError('Please fill out the email field');
-      setIsLoading(false);
-      return;
+      hasError = true;
     } else if (!email.includes('@')) {
       setEmailError('Please include an \'@\' in the email address');
-      setIsLoading(false);
-      return;
+      hasError = true;
     }
     
     if (!password) {
       setPasswordError('Please fill out the password field');
+      hasError = true;
+    }
+    
+    if (hasError) {
       setIsLoading(false);
       return;
     }
