@@ -18,13 +18,13 @@ export default function Login() {
     setIsLoading(true);
 
     if (!email) {
-      setEmailError('Please enter your email address');
+      setEmailError('Please fill out the email field');
       setIsLoading(false);
       return;
     }
     
     if (!password) {
-      setPasswordError('Please enter your password');
+      setPasswordError('Please fill out the password field');
       setIsLoading(false);
       return;
     }
@@ -110,7 +110,7 @@ export default function Login() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                   if (e.target.value.length === 0) {
-                    setPasswordError('Please enter your password');
+                    setPasswordError('Please fill out the password field');
                   } else {
                     setPasswordError('');
                   }
