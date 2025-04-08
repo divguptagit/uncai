@@ -70,8 +70,9 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
                          placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 
-                         dark:bg-gray-700 dark:text-white"
+                         dark:bg-gray-700 dark:text-white invalid:[&:not(:placeholder-shown)]:border-blue-500 invalid:[&:not(:placeholder-shown)]:ring-1 invalid:[&:not(:placeholder-shown)]:ring-blue-500"
                 placeholder="Enter your email"
+                title="Please include an '@' in the email address"
               />
             </div>
 
