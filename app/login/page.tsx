@@ -17,8 +17,15 @@ export default function Login() {
     setError('');
     setIsLoading(true);
 
+    setEmailError('');
+    setPasswordError('');
+    
     if (!email) {
       setEmailError('Please fill out the email field');
+      setIsLoading(false);
+      return;
+    } else if (!email.includes('@')) {
+      setEmailError('Please include an \'@\' in the email address');
       setIsLoading(false);
       return;
     }
@@ -75,14 +82,7 @@ export default function Login() {
                 type="text"
                 required
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (!e.target.value.includes('@')) {
-                    setEmailError('Please include an \'@\' in the email address');
-                  } else {
-                    setEmailError('');
-                  }
-                }}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
                          placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 
                          dark:bg-gray-700 dark:text-white"
@@ -107,14 +107,7 @@ export default function Login() {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (e.target.value.length === 0) {
-                    setPasswordError('Please fill out the password field');
-                  } else {
-                    setPasswordError('');
-                  }
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
                          placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 
                          dark:bg-gray-700 dark:text-white"
