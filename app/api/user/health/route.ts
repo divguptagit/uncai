@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import connectDB from '@/lib/mongodb';
-import User from '@/models/User';
+import { authOptions } from '../../auth/auth-options';
+import { supabase } from '@/lib/supabase';
 
 export async function GET() {
   try {
@@ -15,17 +14,21 @@ export async function GET() {
       );
     }
 
-    await connectDB();
-    const user = await User.findOne({ email: session.user.email });
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-    if (!user) {
+    if (error || !user) {
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(user.healthData);
+    return NextResponse.json(user.user_metadata.healthData || {
+      weight: 0,
+      height: 0,
+      activityLevel: 'moderate',
+      goals: [],
+    });
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message },
@@ -45,23 +48,31 @@ export async function PUT(req: Request) {
       );
     }
 
-    const data = await req.json();
-    await connectDB();
+    const { data: { user }, error: getUserError } = await supabase.auth.getUser();
 
-    const user = await User.findOneAndUpdate(
-      { email: session.user.email },
-      { $set: { healthData: data } },
-      { new: true }
-    );
-
-    if (!user) {
+    if (getUserError || !user) {
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(user.healthData);
+    const data = await req.json();
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: {
+        ...user.user_metadata,
+        healthData: data,
+      },
+    });
+
+    if (updateError) {
+      return NextResponse.json(
+        { error: updateError.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message },

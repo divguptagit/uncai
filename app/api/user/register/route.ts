@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
-import User from '@/models/User';
+import { supabase } from '@/lib/supabase';
 
 export async function POST(req: Request) {
   try {
@@ -13,37 +12,36 @@ export async function POST(req: Request) {
       );
     }
 
-    await connectDB();
+    const { data: { user }, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+          healthData: {
+            weight: 0,
+            height: 0,
+            activityLevel: 'moderate',
+            goals: [],
+          },
+        },
+      },
+    });
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    if (error) {
       return NextResponse.json(
-        { error: 'User already exists' },
+        { error: error.message },
         { status: 400 }
       );
     }
-
-    // Create new user
-    const user = await User.create({
-      email,
-      password,
-      name,
-      healthData: {
-        weight: 0,
-        height: 0,
-        activityLevel: 'moderate',
-        goals: [],
-      },
-    });
 
     return NextResponse.json(
       {
         message: 'User created successfully',
         user: {
-          id: user._id,
-          email: user.email,
-          name: user.name,
+          id: user?.id,
+          email: user?.email,
+          name: user?.user_metadata?.name,
         },
       },
       { status: 201 }
