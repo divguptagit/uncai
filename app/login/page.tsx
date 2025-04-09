@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { signIn } from 'next-auth/react';
 import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
 
@@ -40,15 +40,16 @@ export default function LoginPage() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const result = await signIn('credentials', {
           email,
           password,
+          redirect: false,
         });
 
-        if (error) {
+        if (result?.error) {
           setErrors({
             email: '',
-            password: error.message,
+            password: result.error,
           });
         } else {
           router.push('/dashboard');

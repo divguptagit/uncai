@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+
 import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
 
@@ -52,20 +52,20 @@ export default function RegisterPage() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const { data, error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              name: formData.name,
-            },
+        const response = await fetch('/api/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify(formData),
         });
 
-        if (error) {
+        const data = await response.json();
+
+        if (!response.ok) {
           setErrors({
             ...errors,
-            email: error.message,
+            email: data.error,
           });
         } else {
           router.push('/login?registered=true');
