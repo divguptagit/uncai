@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -118,12 +119,12 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button
+          <AnimatedButton
             type="submit"
-            className="btn-primary"
+            className="w-full"
           >
             Sign in
-          </button>
+          </AnimatedButton>
 
           <p className="text-center text-sm text-gray-400 mt-4">
             Don't have an account?{' '}

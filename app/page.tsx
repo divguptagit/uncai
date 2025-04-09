@@ -1,7 +1,7 @@
 
 
-import Link from 'next/link'
 import Logo from './components/Logo'
+import AnimatedButton from './components/AnimatedButton'
 
 export default function Home() {
   return (
@@ -14,12 +14,9 @@ export default function Home() {
             </h1>
           </div>
           <div>
-            <Link 
-              href="/login"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150"
-            >
+            <AnimatedButton href="/login" className="text-sm px-4 py-2">
               Sign in
-            </Link>
+            </AnimatedButton>
           </div>
         </nav>
       </header>
@@ -37,12 +34,9 @@ export default function Home() {
               Experience intelligent health monitoring that adapts to your needs.
               Stay on top of your health with personalized insights and reminders.
             </p>
-            <Link 
-              href="/login"
-              className="hero-button inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150"
-            >
+            <AnimatedButton href="/login" className="hero-button">
               Get Started
-            </Link>
+            </AnimatedButton>
           </div>
 
           {/* Features */}
