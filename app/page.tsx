@@ -27,17 +27,17 @@ export default function Home() {
         {/* Hero Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+            <h2 className="hero-title text-4xl sm:text-6xl font-bold text-white mb-6">
               Your Personal Health
               <span className="text-blue-500"> Assistant</span>
             </h2>
-            <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+            <p className="hero-description text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
               Experience intelligent health monitoring that adapts to your needs.
               Stay on top of your health with personalized insights and reminders.
             </p>
             <Link 
               href="/login"
-              className="inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150"
+              className="hero-button inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150"
             >
               Get Started
             </Link>
@@ -45,15 +45,15 @@ export default function Home() {
 
           {/* Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card p-6">
+            <div className="feature-card card p-6" style={{animationDelay: '0.2s'}}>
               <h3 className="text-lg font-semibold text-white mb-3">Health Monitoring</h3>
               <p className="text-gray-400">Track your vital signs and daily activities with smart AI technology</p>
             </div>
-            <div className="card p-6">
+            <div className="feature-card card p-6" style={{animationDelay: '0.4s'}}>
               <h3 className="text-lg font-semibold text-white mb-3">Smart Reminders</h3>
               <p className="text-gray-400">Never miss important medications or appointments with intelligent alerts</p>
             </div>
-            <div className="card p-6">
+            <div className="feature-card card p-6" style={{animationDelay: '0.6s'}}>
               <h3 className="text-lg font-semibold text-white mb-3">Personalized Insights</h3>
               <p className="text-gray-400">Get tailored health recommendations based on your activity patterns</p>
             </div>

@@ -12,7 +12,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased bg-gray-900">
+        <div className="page-transition">
+          {children}
+        </div>
+      </body>
     </html>
   )
 }

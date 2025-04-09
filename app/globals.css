@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-rgb: 17, 17, 17;
@@ -12,9 +27,14 @@ body {
   background: rgb(var(--background-rgb));
 }
 
+.page-transition {
+  animation: fadeIn 0.5s ease-out;
+}
+
 @layer components {
   .input-field {
-    @apply w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200;
+    @apply w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    transition: all 0.2s ease-in-out;
   }
   
   .input-error {
@@ -26,7 +46,29 @@ body {
   }
 
   .card {
-    @apply bg-gray-900 rounded-lg border border-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200;
+    @apply bg-gray-900 rounded-lg border border-gray-800 shadow-lg;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    @apply shadow-xl border-gray-700;
+    transform: translateY(-2px);
+  }
+
+  .hero-title {
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  .hero-description {
+    animation: fadeIn 0.8s ease-out 0.2s backwards;
+  }
+
+  .hero-button {
+    animation: scaleIn 0.6s ease-out 0.4s backwards;
+  }
+
+  .feature-card {
+    animation: fadeIn 0.6s ease-out;
   }
 }
 
