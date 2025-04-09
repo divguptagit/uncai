@@ -6,6 +6,8 @@ import { signIn } from 'next-auth/react';
 import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');

@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AnimatedButton from '../components/AnimatedButton';
 
+export const dynamic = 'force-dynamic';
+
 interface HealthData {
   weight: number;
   height: number;

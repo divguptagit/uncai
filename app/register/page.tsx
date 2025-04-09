@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
 import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
+
+export const dynamic = 'force-dynamic';
 
 export default function RegisterPage() {
   const router = useRouter();
