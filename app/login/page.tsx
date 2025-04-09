@@ -52,7 +52,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
@@ -61,10 +61,17 @@ export default function LoginPage() {
               <input
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (!e.target.value.includes('@')) {
+                    setErrors(prev => ({ ...prev, email: 'Please include an @ in the email address' }));
+                  } else {
+                    setErrors(prev => ({ ...prev, email: '' }));
+                  }
+                }}
+                className={`input-field ${errors.email ? 'border-red-500' : ''}`}
                 placeholder="you@example.com"
               />
               {errors.email && (
