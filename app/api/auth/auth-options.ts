@@ -1,5 +1,6 @@
+import type { NextAuthOptions, Session, User } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { NextAuthOptions } from 'next-auth';
 import { supabase } from '@/lib/supabase';
 
 export const authOptions: NextAuthOptions = {
@@ -39,7 +40,7 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user: User | null }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -47,7 +48,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user && token) {
         (session.user as any).id = token.id;
         session.user.email = token.email;

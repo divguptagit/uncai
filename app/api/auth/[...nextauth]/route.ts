@@ -3,5 +3,5 @@ import { authOptions } from '../auth-options';
 
 const handler = NextAuth(authOptions);
 
-export const GET = handler;
-export const POST = handler;
+export const GET = handler.GET;
+export const POST = handler.POST;
