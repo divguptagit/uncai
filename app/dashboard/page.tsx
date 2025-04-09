@@ -1,8 +1,37 @@
 'use client';
 
+import { useSession, signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import AnimatedButton from '../components/AnimatedButton';
+
+interface HealthData {
+  weight: number;
+  height: number;
+  activityLevel: string;
+  goals: string[];
+}
 
 export default function DashboardPage() {
+  const { data: session } = useSession();
+  const [healthData, setHealthData] = useState<HealthData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHealthData = async () => {
+      try {
+        const response = await fetch('/api/user/health');
+        const data = await response.json();
+        setHealthData(data);
+      } catch (error) {
+        console.error('Error fetching health data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHealthData();
+  }, []);
   return (
     <div className="min-h-screen">
       <nav className="bg-gray-900 border-b border-gray-800">
@@ -14,13 +43,14 @@ export default function DashboardPage() {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300">Welcome, User</span>
-              <Link 
-                href="/"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150"
+              <span className="text-gray-300">Welcome, {session?.user?.name}</span>
+              <AnimatedButton
+                onClick={() => signOut()}
+                variant="secondary"
+                className="text-sm px-4 py-2"
               >
                 Sign Out
-              </Link>
+              </AnimatedButton>
             </div>
           </div>
         </div>

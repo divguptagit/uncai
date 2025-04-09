@@ -13,9 +13,12 @@ export default function Home() {
               Wellness<span className="text-blue-500">Watch</span>
             </h1>
           </div>
-          <div>
-            <AnimatedButton href="/login" className="text-sm px-4 py-2">
-              Sign in
+          <div className="space-x-4">
+            <AnimatedButton href="/register" className="text-sm px-4 py-2">
+              Get Started
+            </AnimatedButton>
+            <AnimatedButton href="/login" variant="secondary" className="text-sm px-4 py-2">
+              Sign In
             </AnimatedButton>
           </div>
         </nav>
@@ -34,9 +37,14 @@ export default function Home() {
               Experience intelligent health monitoring that adapts to your needs.
               Stay on top of your health with personalized insights and reminders.
             </p>
-            <AnimatedButton href="/login" className="hero-button">
-              Get Started
-            </AnimatedButton>
+            <div className="space-x-4">
+              <AnimatedButton href="/register" className="hero-button">
+                Get Started
+              </AnimatedButton>
+              <AnimatedButton href="/login" variant="secondary" className="hero-button">
+                Sign In
+              </AnimatedButton>
+            </div>
           </div>
 
           {/* Features */}

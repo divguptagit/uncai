@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import AnimatedButton from '../components/AnimatedButton';
 import Link from 'next/link';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
@@ -33,11 +36,30 @@ export default function LoginPage() {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle login logic here
-      console.log('Form is valid');
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          setErrors({
+            email: '',
+            password: error.message,
+          });
+        } else {
+          router.push('/dashboard');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        setErrors({
+          email: '',
+          password: 'An error occurred during login',
+        });
+      }
     }
   };
 
@@ -49,7 +71,10 @@ export default function LoginPage() {
             Welcome Back
           </h2>
           <p className="text-lg text-gray-300">
-            Sign in to your WellnessWatch account
+            Sign in to your WellnessWatch account or{' '}
+            <Link href="/register" className="text-blue-500 hover:text-blue-400">
+              create an account
+            </Link>
           </p>
         </div>
 

@@ -1,5 +1,6 @@
 import './globals.css'
 import PageTransition from './components/PageTransition'
+import { Providers } from './providers'
 
 export const metadata = {
   title: 'WellnessWatch',
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-gray-900">
-        <PageTransition>{children}</PageTransition>
+        <Providers>
+          <PageTransition>{children}</PageTransition>
+        </Providers>
       </body>
     </html>
   )
