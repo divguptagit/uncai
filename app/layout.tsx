@@ -1,4 +1,5 @@
 import './globals.css'
+import PageTransition from './components/PageTransition'
 
 export const metadata = {
   title: 'WellnessWatch',
@@ -13,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-gray-900">
-        <div className="page-transition">
-          {children}
-        </div>
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   )
